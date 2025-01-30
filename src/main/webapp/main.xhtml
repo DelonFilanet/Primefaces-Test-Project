@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="jakarta.faces.facelets"
+    xmlns:f="jakarta.faces.core"
+    xmlns:h="jakarta.faces.html"
+    xmlns:p="primefaces">
+
+<h:head>
+    <title>PrimeFaces Test</title>
+    <h:outputScript name="test.js" />
+    <h:outputStylesheet name="test.css" />
+</h:head>
+<h:body>
+
+    <h1>#{testView.string}</h1>
+    <h:form id="frmTest">
+        <div style="height: 100%; overflow: hidden;">
+            <p:splitter style="height: 100%"
+                resizeMode="fit">
+                <p:splitterPanel styleClass="align-items-center"
+                    size="10">
+                    <p:tree id="tree-view"
+                        value="#{testView.testTreeNode}"
+                        var="node"
+                        class="tree-view"
+                        dynamic="true"
+                        cache="false"
+                        selectionMode="single"
+                        selection="#{testView.selectedNode}">
+                        <p:treeNode>
+                            <h:outputText value="#{node}" />
+                        </p:treeNode>
+                    </p:tree>
+                </p:splitterPanel>
+                <p:splitterPanel styleClass="align-items-center"
+                    size="90">
+                    <p:outputPanel class="sub-toolbar"
+                        style="height: 45px;"
+                        id="ownerLocationsToolbar">
+                        <p:commandButton styleClass="ui-button"
+                            value="Select Page"
+                            style="margin-right: 10px;"
+                            update="@form" />
+                        <p:commandButton styleClass="ui-button"
+                            style="margin-right: 10px;"
+                            value="Clear Selection"
+                            update="@form" />
+                        <p:commandButton icon="pi pi-refresh"
+                            styleClass="ui-button"
+                            style="margin-right: 10px;"
+                            update="@form" />
+                        <p:commandButton value="Allocate"
+                            styleClass="ui-button"
+                            update="@form" />
+                    </p:outputPanel>
+                    <p:card style="overflow-y: scroll; height: calc(100% - 44px);">
+                        <p:dataTable id="settingsTable"
+                            widgetVar="settingsTable"
+                            filteredValue="#{testView.filteredList}"
+                            var="settings"
+                            stripedRows="true"
+                            scrollable="true"
+                            scrollHeight="auto"
+                            scrollWidth="auto"
+                            value="#{testView.testTableList}"
+                            rowKey="#{settings.id}"
+                            rowIndexVar="rowIndex"
+                            paginator="true"
+                            paginatorPosition="bottom"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks}
+                                   {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {RowsCount}"
+                            rowsPerPageTemplate="5,10,15,25"
+                            rows="10">
+                            <f:facet name="{RowsCount}">
+                                <h:outputText style="float: right;"
+                                    value="Row count: #{testView.testTableList.size()}" />
+                            </f:facet>
+                            <p:column headerText="Name"
+                                filterBy="#{settings.name}"
+                                filterMatchMode="contains"
+                                styleClass="column-single-line">
+                                <h:outputText value="#{settings.name}"
+                                    id="name" />
+                                <p:tooltip for="name"
+                                    value="#{settings.name}"
+                                    trackMouse="true" />
+                            </p:column>
+                            <p:column headerText="Artist"
+                                filterBy="#{settings.artist}"
+                                filterMatchMode="contains"
+                                styleClass="column-single-line">
+                                <h:outputText value="#{settings.artist}"
+                                    id="artist" />
+                                <p:tooltip for="artist"
+                                    value="#{settings.artist}"
+                                    trackMouse="true" />
+                            </p:column>
+                            <p:column headerText="Released"
+                                filterBy="#{settings.released}"
+                                filterMatchMode="equals"
+                                styleClass="column-single-line">
+                                <h:outputText value="#{settings.released}"
+                                    id="released" />
+                                <p:tooltip for="released"
+                                    value="#{settings.released}"
+                                    trackMouse="true" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:card>
+                </p:splitterPanel>
+            </p:splitter>
+        </div>
+    </h:form>
+
+</h:body>
+
+</html>
